@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="train.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="train_color.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="train.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="train_color.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="train_size.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{d23f22a7-6439-48ca-94d7-83a28bf9b7b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{35d148e2-0725-4f31-a4a7-ca55b905f437}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
