@@ -10,9 +10,6 @@
     <ClCompile Include="train_color.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="empty_main.c">
-      <Filter>empty</Filter>
-    </ClCompile>
     <ClCompile Include="empty_train.c">
       <Filter>empty</Filter>
     </ClCompile>

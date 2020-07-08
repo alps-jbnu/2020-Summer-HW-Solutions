@@ -1,8 +1,9 @@
 #include <assert.h>
 #include <stdio.h>
 
-#include "train.h"
+#include "train_color.h"
 #include "train_size.h"
+#include "train.h"
 
 void print_train_information(const train_t* const train);
 

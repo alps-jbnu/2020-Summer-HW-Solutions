@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="empty_main.c" />
     <ClCompile Include="empty_train.c" />
     <ClCompile Include="empty_train_color.c" />
     <ClCompile Include="main.c" />
