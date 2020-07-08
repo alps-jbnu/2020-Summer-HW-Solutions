@@ -10,6 +10,15 @@
     <ClCompile Include="train_color.c">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="empty_main.c">
+      <Filter>empty</Filter>
+    </ClCompile>
+    <ClCompile Include="empty_train.c">
+      <Filter>empty</Filter>
+    </ClCompile>
+    <ClCompile Include="empty_train_color.c">
+      <Filter>empty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="train.h">
@@ -21,6 +30,15 @@
     <ClInclude Include="train_size.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="empty_train.h">
+      <Filter>empty</Filter>
+    </ClInclude>
+    <ClInclude Include="empty_train_color.h">
+      <Filter>empty</Filter>
+    </ClInclude>
+    <ClInclude Include="empty_train_size.h">
+      <Filter>empty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -28,6 +46,9 @@
     </Filter>
     <Filter Include="Header">
       <UniqueIdentifier>{35d148e2-0725-4f31-a4a7-ca55b905f437}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="empty">
+      <UniqueIdentifier>{6bfb71a8-99f6-4a11-990a-0918b01cd986}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

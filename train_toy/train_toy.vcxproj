@@ -139,11 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="empty_main.c" />
+    <ClCompile Include="empty_train.c" />
+    <ClCompile Include="empty_train_color.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="train.c" />
     <ClCompile Include="train_color.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="empty_train.h" />
+    <ClInclude Include="empty_train_color.h" />
+    <ClInclude Include="empty_train_size.h" />
     <ClInclude Include="train_color.h" />
     <ClInclude Include="train_size.h" />
     <ClInclude Include="train.h" />
