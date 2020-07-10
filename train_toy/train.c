@@ -1,5 +1,4 @@
-﻿
-#include "train.h"
+﻿#include "train.h"
 
 train_t* create_train_malloc(const char* const name, const train_size_t size, const train_color_t* color)
 {
