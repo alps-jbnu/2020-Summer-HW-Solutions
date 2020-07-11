@@ -2,5 +2,7 @@
 
 namespace rpg_extreme
 {
-
+    Equipment::Equipment()
+    {
+    }
 }

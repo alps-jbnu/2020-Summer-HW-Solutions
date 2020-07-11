@@ -10,6 +10,9 @@ namespace rpg_extreme
         SPIKE_TRAP = '^',
         MONSTER = '&',
         BOSS_MONSTER = 'M',
-        PLAYER = '@'
+        PLAYER = '@',
+        WEAPON = 'W',
+        ARMOR = 'A',
+        ACCESSORY = 'O',
     };
 }

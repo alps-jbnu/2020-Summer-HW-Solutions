@@ -21,13 +21,12 @@ namespace rpg_extreme
         mGameObjects.reserve(mHeight);
         for (int y = 0; y < mHeight; ++y)
         {
-            auto rowVector = std::vector<std::vector<GameObject>>();
+            auto rowVector = std::vector<std::vector<GameObject*>>();
             rowVector.reserve(mWidth);
-            mGameObjects.push_back(rowVector);
-
+            
             for (int x = 0; x < mWidth; ++x)
             {
-                rowVector.push_back(std::vector<GameObject>());
+                rowVector.push_back(std::vector<GameObject*>());
 
                 const char symbol = mapData[y][x];
 
@@ -45,7 +44,7 @@ namespace rpg_extreme
                     break;
 
                 case eSymbolType::SPIKE_TRAP:
-                    //rowVector[x].push_back(SpikeTrap());
+                    rowVector[x].push_back(new SpikeTrap(x, y));
                     break;
 
                 case eSymbolType::MONSTER:
@@ -57,15 +56,30 @@ namespace rpg_extreme
                     break;
 
                 case eSymbolType::PLAYER:
+                    mPlayer = new Player(x, y);
+                    rowVector[x].push_back(mPlayer);
                     break;
                     
                 default:
                     assert(false);
                 }
             }
+            mGameObjects.push_back(rowVector);
         }
+    }
 
-
+    Map::~Map()
+    {
+        for (auto& rowVector : mGameObjects)
+        {
+            for (auto& columnVector : rowVector)
+            {
+                for (auto objectPtr : columnVector)
+                {
+                    delete objectPtr; // including mPlayer
+                }
+            }
+        }
     }
 
     uint16_t Map::GetItemBoxCount() const
@@ -76,5 +90,25 @@ namespace rpg_extreme
     uint16_t Map::GetMonsterCount() const
     {
         return mMonsterCount;
+    }
+
+    std::vector<GameObject*>& Map::GetGameObjectsByXY(const int8_t x, const int8_t y)
+    {
+        return mGameObjects[y][x];
+    }
+
+    void Map::AddGameObject(GameObject* gameObject)
+    {
+        mGameObjects[gameObject->GetY()][gameObject->GetX()].push_back(gameObject);
+    }
+
+    bool Map::IsPassable(const int8_t x, const int8_t y) const
+    {
+        return x >= 0 && x < mWidth && y >= 0 && y < mHeight && mPassables[y][x];
+    }
+
+    Player& Map::GetPlayer() const
+    {
+        return *mPlayer;
     }
 }

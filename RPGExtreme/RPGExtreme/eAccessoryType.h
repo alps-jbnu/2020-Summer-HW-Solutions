@@ -8,8 +8,6 @@ namespace rpg_extreme
         REINCARNATION,
         COURAGE,
         EXPERIENCE,
-        COURAGE,
-        EXPERIENCE,
         DEXTERITY,
         HUNTER,
         CURSED

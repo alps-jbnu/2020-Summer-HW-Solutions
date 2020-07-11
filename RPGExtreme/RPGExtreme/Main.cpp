@@ -1,33 +1,16 @@
 ﻿#include <iostream>
-#include <string>
 
-#include "Map.h"
+#include "GameManager.h"
 
-using namespace std;
 using namespace rpg_extreme;
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
 
-    int width;
-    int height;
-    vector<string> mapData;
-
-    cin >> height >> width;
-    mapData.reserve(height);
-
-    for (int i = 0; i < height; ++i)
-    {
-        string line;
-        cin >> line;
-        mapData.push_back(line);
-    }
-
-    Map map(width, height, mapData);
-
-
-
+    GameManager& gameManager = GameManager::GetInstance();
+    gameManager.Start();
+    gameManager.Exit();
     return 0;
 }
