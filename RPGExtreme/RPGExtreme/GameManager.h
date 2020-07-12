@@ -10,6 +10,7 @@ namespace rpg_extreme
         void Start();
         void Exit();
         Map& GetMap() const;
+        void Print() const;
 
     private:
         GameManager();
@@ -17,5 +18,7 @@ namespace rpg_extreme
 
         static GameManager* sInstance;
         Map* mMap;
+        uint16_t mTurnCount;
+        bool mbGameOver;
     };
 }

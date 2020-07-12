@@ -6,4 +6,23 @@ namespace rpg_extreme
         : mType(type)
     {
     }
+
+    bool Accessory::IsArmor() const
+    {
+        return false;
+    }
+
+    bool Accessory::IsAccessory() const
+    {
+        return true;
+    }
+
+    bool Accessory::IsWeapon() const
+    {
+        return false;
+    }
+    eAccessoryType Accessory::GetType() const
+    {
+        return mType;
+    }
 }

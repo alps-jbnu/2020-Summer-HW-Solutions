@@ -8,6 +8,10 @@ namespace rpg_extreme
     {
     public:
         Weapon(const uint16_t attack);
+        virtual bool IsArmor() const;
+        virtual bool IsAccessory() const;
+        virtual bool IsWeapon() const;
+        uint16_t GetAttack() const;
 
     private:
         const uint16_t mAttack;

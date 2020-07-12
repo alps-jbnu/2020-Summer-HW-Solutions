@@ -10,4 +10,29 @@ namespace rpg_extreme
         , mExp(exp)
     {
     }
+
+    bool Character::IsAlive() const
+    {
+        return mHp > 0;
+    }
+
+    int32_t Character::GetHp() const
+    {
+        return mHp;
+    }
+
+    int32_t Character::GetAttack() const
+    {
+        return mAttack;
+    }
+
+    int32_t Character::GetDefense() const
+    {
+        return mDefense;
+    }
+
+    int32_t Character::GetExp() const
+    {
+        return mExp;
+    }
 }

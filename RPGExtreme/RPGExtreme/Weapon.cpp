@@ -7,4 +7,24 @@ namespace rpg_extreme
         , mAttack(attack)
     {
     }
+
+    bool Weapon::IsArmor() const
+    {
+        return false;
+    }
+
+    bool Weapon::IsAccessory() const
+    {
+        return false;
+    }
+
+    bool Weapon::IsWeapon() const
+    {
+        return true;
+    }
+
+    uint16_t Weapon::GetAttack() const
+    {
+        return mAttack;
+    }
 }

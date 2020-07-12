@@ -7,7 +7,13 @@ namespace rpg_extreme
     class GameObject
     {
     public:
+        virtual ~GameObject();
+
         virtual char GetSymbol() const = 0;
+        virtual bool IsEquipmentGivable() const = 0;
+        virtual bool IsAttackable() const = 0;
+        virtual bool IsDamageable() const = 0;
+
         int8_t GetX() const;
         int8_t GetY() const;
 

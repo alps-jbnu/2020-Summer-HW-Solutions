@@ -12,5 +12,6 @@ int main()
     GameManager& gameManager = GameManager::GetInstance();
     gameManager.Start();
     gameManager.Exit();
+
     return 0;
 }

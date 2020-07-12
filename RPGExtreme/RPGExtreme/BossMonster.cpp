@@ -12,4 +12,9 @@ namespace rpg_extreme
     {
         return eSymbolType::BOSS_MONSTER;
     }
+
+    bool BossMonster::IsBoss() const
+    {
+        return true;
+    }
 }

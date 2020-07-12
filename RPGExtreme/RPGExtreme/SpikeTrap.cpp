@@ -12,4 +12,16 @@ namespace rpg_extreme
     {
         return eSymbolType::SPIKE_TRAP;
     }
+    bool SpikeTrap::IsEquipmentGivable() const
+    {
+        return false;
+    }
+    bool SpikeTrap::IsAttackable() const
+    {
+        return false;
+    }
+    bool SpikeTrap::IsDamageable() const
+    {
+        return false;
+    }
 }

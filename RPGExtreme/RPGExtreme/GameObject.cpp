@@ -8,6 +8,10 @@ namespace rpg_extreme
     {
     }
 
+    GameObject::~GameObject()
+    {
+    }
+
     int8_t GameObject::GetX() const
     {
         return mX;

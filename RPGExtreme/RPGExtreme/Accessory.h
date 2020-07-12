@@ -9,6 +9,10 @@ namespace rpg_extreme
     {
     public:
         Accessory(const eAccessoryType type);
+        virtual bool IsArmor() const;
+        virtual bool IsAccessory() const;
+        virtual bool IsWeapon() const;
+        eAccessoryType GetType() const;
 
     private:
         const eAccessoryType mType;

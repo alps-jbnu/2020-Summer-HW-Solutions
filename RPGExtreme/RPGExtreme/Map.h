@@ -7,7 +7,7 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "Monster.h"
-#include "ItemBox.h"
+#include "EquipmentBox.h"
 
 namespace rpg_extreme
 {
@@ -23,6 +23,7 @@ namespace rpg_extreme
         std::vector<GameObject*>& GetGameObjectsByXY(const int8_t x, const int8_t y);
         bool IsPassable(const int8_t x, const int8_t y) const;
         Player& GetPlayer() const;
+        std::string ToString() const;
 
     private:
         enum

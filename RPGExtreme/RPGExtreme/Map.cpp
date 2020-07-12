@@ -1,4 +1,5 @@
 #include <cassert>
+#include <sstream>
 
 #include "Map.h"
 #include "SpikeTrap.h"
@@ -11,6 +12,7 @@ namespace rpg_extreme
         , mHeight(height)
         , mItemBoxCount(0)
         , mMonsterCount(0)
+        , mPlayer(nullptr)
     {
         mPassables.reserve(mHeight);
         for (int i = 0; i < mHeight; ++i)
@@ -110,5 +112,29 @@ namespace rpg_extreme
     Player& Map::GetPlayer() const
     {
         return *mPlayer;
+    }
+
+    std::string Map::ToString() const
+    {
+        std::stringstream ss;
+
+        for (int y = 0; y < mHeight; ++y)
+        {
+            for (int x = 0; x < mWidth; ++x)
+            {
+                auto& gameObjects = mGameObjects[y][x];
+                if (gameObjects.empty())
+                {
+                    ss << (mPassables[y][x] ? static_cast<char>(eSymbolType::BLANK) : static_cast<char>(eSymbolType::WALL));
+                }
+                else
+                {
+                    ss << gameObjects.back()->GetSymbol();
+                }
+            }
+            ss << '\n';
+        }
+
+        return ss.str();
     }
 }
