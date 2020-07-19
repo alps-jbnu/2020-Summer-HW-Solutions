@@ -3,7 +3,7 @@
 
 namespace rpg_extreme
 {
-    BossMonster::BossMonster(const int8_t x, const int8_t y, const std::string& name, const int32_t attack, const int32_t defense, const int32_t hp, const int32_t exp)
+    BossMonster::BossMonster(const int8_t x, const int8_t y, const std::string& name, const int16_t attack, const int16_t defense, const int16_t hp, const int16_t exp)
         : Monster(x, y, name, attack, defense, hp, exp)
     {
     }

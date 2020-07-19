@@ -1,5 +1,4 @@
 #include "SpikeTrap.h"
-#include "eSymbolType.h"
 
 namespace rpg_extreme
 {
@@ -12,16 +11,34 @@ namespace rpg_extreme
     {
         return eSymbolType::SPIKE_TRAP;
     }
-    bool SpikeTrap::IsEquipmentGivable() const
+
+    bool SpikeTrap::IsCharacter() const
     {
         return false;
     }
+
+    bool SpikeTrap::IsEquipmentBox() const
+    {
+        return false;
+    }
+    
+    bool SpikeTrap::IsWall() const
+    {
+        return false;
+    }
+
+    bool SpikeTrap::IsSpikeTrap() const
+    {
+        return true;
+    }
+
     bool SpikeTrap::IsAttackable() const
     {
-        return false;
+        return true;
     }
-    bool SpikeTrap::IsDamageable() const
+
+    void SpikeTrap::AttackTo(Character* character)
     {
-        return false;
     }
+
 }

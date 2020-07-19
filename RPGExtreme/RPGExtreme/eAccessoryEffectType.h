@@ -2,7 +2,7 @@
 
 namespace rpg_extreme
 {
-    enum class eAccessoryType
+    enum class eAccessoryEffectType
     {
         HP_REGENERATION,
         REINCARNATION,

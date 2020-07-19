@@ -1,17 +1,17 @@
 ﻿#include <iostream>
 
-#include "GameManager.h"
+#include "Game.h"
 
 using namespace rpg_extreme;
 
 int main()
 {
     std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    std::cin.tie(NULL);
 
-    GameManager& gameManager = GameManager::GetInstance();
-    gameManager.Start();
-    gameManager.Exit();
+    Game& game = Game::GetInstance();
+    game.Start();
+    game.Shutdown();
 
     return 0;
 }

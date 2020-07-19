@@ -1,9 +1,4 @@
-#include <cassert>
-#include <sstream>
-
 #include "Map.h"
-#include "SpikeTrap.h"
-#include "eSymbolType.h"
 
 namespace rpg_extreme
 {
@@ -12,13 +7,10 @@ namespace rpg_extreme
         , mHeight(height)
         , mItemBoxCount(0)
         , mMonsterCount(0)
-        , mPlayer(nullptr)
+        , mPlayer(NULL)
+        , mBossMonsterPosX(0)
+        , mBossMonsterPosY(0)
     {
-        mPassables.reserve(mHeight);
-        for (int i = 0; i < mHeight; ++i)
-        {
-            mPassables.push_back(std::bitset<MAX_WIDTH>().set());
-        }
 
         mGameObjects.reserve(mHeight);
         for (int y = 0; y < mHeight; ++y)
@@ -38,7 +30,7 @@ namespace rpg_extreme
                     break;
 
                 case eSymbolType::WALL:
-                    mPassables[y][x] = false;
+                    rowVector[x].push_back(new Wall(x, y));
                     break;
 
                 case eSymbolType::ITEM_BOX:
@@ -55,6 +47,8 @@ namespace rpg_extreme
 
                 case eSymbolType::BOSS_MONSTER:
                     ++mMonsterCount;
+                    mBossMonsterPosX = x;
+                    mBossMonsterPosY = y;
                     break;
 
                 case eSymbolType::PLAYER:
@@ -106,7 +100,7 @@ namespace rpg_extreme
 
     bool Map::IsPassable(const int8_t x, const int8_t y) const
     {
-        return x >= 0 && x < mWidth && y >= 0 && y < mHeight && mPassables[y][x];
+        return x >= 0 && x < mWidth && y >= 0 && y < mHeight && (mGameObjects[y][x].empty() || !mGameObjects[y][x].front()->IsWall());
     }
 
     Player& Map::GetPlayer() const
@@ -125,7 +119,7 @@ namespace rpg_extreme
                 auto& gameObjects = mGameObjects[y][x];
                 if (gameObjects.empty())
                 {
-                    ss << (mPassables[y][x] ? static_cast<char>(eSymbolType::BLANK) : static_cast<char>(eSymbolType::WALL));
+                    ss << static_cast<char>(eSymbolType::BLANK);
                 }
                 else
                 {
@@ -136,5 +130,15 @@ namespace rpg_extreme
         }
 
         return ss.str();
+    }
+
+    int8_t Map::GetBossMonsterPosX() const
+    {
+        return mBossMonsterPosX;
+    }
+
+    int8_t Map::GetBossMonsterPosY() const
+    {
+        return mBossMonsterPosY;
     }
 }

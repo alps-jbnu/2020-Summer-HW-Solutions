@@ -10,9 +10,10 @@ namespace rpg_extreme
         virtual ~GameObject();
 
         virtual char GetSymbol() const = 0;
-        virtual bool IsEquipmentGivable() const = 0;
-        virtual bool IsAttackable() const = 0;
-        virtual bool IsDamageable() const = 0;
+        virtual bool IsCharacter() const = 0;
+        virtual bool IsEquipmentBox() const = 0;
+        virtual bool IsWall() const = 0;
+        virtual bool IsSpikeTrap() const = 0;
 
         int8_t GetX() const;
         int8_t GetY() const;

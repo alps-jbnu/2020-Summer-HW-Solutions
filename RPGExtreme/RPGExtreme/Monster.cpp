@@ -4,7 +4,7 @@
 
 namespace rpg_extreme
 {
-    Monster::Monster(const int8_t x, const int8_t y, const std::string& name, const int32_t attack, const int32_t defense, const int32_t hp, const int32_t exp)
+    Monster::Monster(const int8_t x, const int8_t y, const std::string& name, const int16_t attack, const int16_t defense, const int16_t hp, const int16_t exp)
         : Character(x, y, attack, defense, hp, exp)
         , mName(name)
     {
@@ -15,9 +15,14 @@ namespace rpg_extreme
         return eSymbolType::MONSTER;
     }
 
-    bool Monster::IsEquipmentGivable() const
+    bool Monster::IsPlayer() const
     {
         return false;
+    }
+
+    bool Monster::IsMonster() const
+    {
+        return true;
     }
 
     bool Monster::IsAttackable() const
@@ -25,23 +30,23 @@ namespace rpg_extreme
         return true;
     }
 
-    bool Monster::IsDamageable() const
+    bool Monster::IsAttackedable() const
     {
         return true;
     }
 
-    void Monster::AttackTo(Character& character)
+    void Monster::AttackTo(Character* character)
     {
-        auto& player = static_cast<Player&>(character);
-        int32_t damage = mAttack - (player.GetDefense() + player.GetBonusDefense());
+        Player* player = static_cast<Player*>(character);
+        int16_t damage = mAttack - (player->GetDefense() + player->GetArmorDefense());
         if (damage <= 0)
         {
             damage = 1;
         }
-        character.OnAttack(damage);
+        player->OnAttack(*this, damage);
     }
 
-    void Monster::OnAttack(const int16_t damage)
+    void Monster::OnAttack(const GameObject& gameObject, const int16_t damage)
     {
         mHp -= damage;
         if (mHp <= 0)

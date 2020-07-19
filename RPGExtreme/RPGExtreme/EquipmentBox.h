@@ -14,12 +14,14 @@ namespace rpg_extreme
         EquipmentBox(const int8_t x, const int8_t y, Equipment* equipment);
         virtual ~EquipmentBox();
 
-        virtual bool IsEquipmentGivable() const override;
-        virtual bool IsAttackable() const override;
-        virtual bool IsDamageable() const override;
         virtual char GetSymbol() const override;
+        virtual bool IsCharacter() const override;
+        virtual bool IsEquipmentBox() const override;
+        virtual bool IsWall() const override;
+        virtual bool IsSpikeTrap() const override;
+
         Equipment* GetEquipment() const;
-        void Clear();
+        void Remove();
 
     private:
         Equipment* mEquipment;

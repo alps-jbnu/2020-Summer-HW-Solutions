@@ -2,7 +2,7 @@
 
 namespace rpg_extreme
 {
-    Accessory::Accessory(const eAccessoryType type)
+    Accessory::Accessory(const eAccessoryEffectType type)
         : mType(type)
     {
     }
@@ -21,7 +21,8 @@ namespace rpg_extreme
     {
         return false;
     }
-    eAccessoryType Accessory::GetType() const
+
+    eAccessoryEffectType Accessory::GetType() const
     {
         return mType;
     }

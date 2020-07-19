@@ -7,8 +7,8 @@ namespace rpg_extreme
     class BossMonster final : public Monster
     {
     public:
-        BossMonster(const int8_t x, const int8_t y, const std::string& name, const int32_t attack, const int32_t defense, const int32_t hp, const int32_t exp);
-        virtual char GetSymbol() const override;
-        virtual bool IsBoss() const override;
+        BossMonster(const int8_t x, const int8_t y, const std::string& name, const int16_t attack, const int16_t defense, const int16_t hp, const int16_t exp);
+        virtual char GetSymbol() const;
+        virtual bool IsBoss() const;
     };
 }

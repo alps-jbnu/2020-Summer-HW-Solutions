@@ -1,24 +1,19 @@
 #pragma once
 
 #include "GameObject.h"
-#include "eSymbolType.h"
-#include "Character.h"
-#include "IAttackable.h"
 
 namespace rpg_extreme
 {
-    class SpikeTrap final : public GameObject, public IAttackable
+    class Wall final : public GameObject
     {
     public:
-        SpikeTrap(const int8_t x, const int8_t y);
+        Wall(const int8_t x, const int8_t y);
 
         virtual char GetSymbol() const override;
         virtual bool IsCharacter() const override;
         virtual bool IsEquipmentBox() const override;
         virtual bool IsWall() const override;
         virtual bool IsSpikeTrap() const override;
-
-        virtual bool IsAttackable() const;
-        virtual void AttackTo(Character* character);
     };
 }
+

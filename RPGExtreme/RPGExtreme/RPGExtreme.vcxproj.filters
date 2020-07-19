@@ -51,10 +51,13 @@
     <ClCompile Include="Character.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="EquipmentBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="EquipmentBox.cpp">
+    <ClCompile Include="Game.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,9 +80,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="eAccessoryType.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -98,10 +98,22 @@
     <ClInclude Include="Character.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="EquipmentBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="EquipmentBox.h">
+    <ClInclude Include="eAccessoryEffectType.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IAttackable.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IAttackedable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

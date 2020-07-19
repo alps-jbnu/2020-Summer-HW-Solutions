@@ -13,24 +13,29 @@ namespace rpg_extreme
         delete mEquipment;
     }
 
-    bool EquipmentBox::IsEquipmentGivable() const
+    char EquipmentBox::GetSymbol() const
+    {
+        return eSymbolType::ITEM_BOX;
+    }
+
+    bool EquipmentBox::IsCharacter() const
+    {
+        return false;
+    }
+
+    bool EquipmentBox::IsEquipmentBox() const
     {
         return true;
     }
 
-    bool EquipmentBox::IsAttackable() const
+    bool EquipmentBox::IsWall() const
     {
         return false;
     }
 
-    bool EquipmentBox::IsDamageable() const
+    bool EquipmentBox::IsSpikeTrap() const
     {
         return false;
-    }
-
-    char EquipmentBox::GetSymbol() const
-    {
-        return eSymbolType::ITEM_BOX;
     }
 
     Equipment* EquipmentBox::GetEquipment() const
@@ -38,8 +43,8 @@ namespace rpg_extreme
         return mEquipment;
     }
 
-    void EquipmentBox::Clear()
+    void EquipmentBox::Remove()
     {
-        mEquipment = nullptr;
+        mEquipment = NULL;
     }
 }

@@ -1,20 +1,20 @@
 #pragma once
 
 #include "Equipment.h"
-#include "eAccessoryType.h"
+#include "eAccessoryEffectType.h"
 
 namespace rpg_extreme
 {
     class Accessory final : public Equipment
     {
     public:
-        Accessory(const eAccessoryType type);
+        Accessory(const eAccessoryEffectType type);
         virtual bool IsArmor() const;
         virtual bool IsAccessory() const;
         virtual bool IsWeapon() const;
-        eAccessoryType GetType() const;
+        eAccessoryEffectType GetType() const;
 
     private:
-        const eAccessoryType mType;
+        const eAccessoryEffectType mType;
     };
 }

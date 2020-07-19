@@ -2,12 +2,16 @@
 
 #include <cstdint>
 #include <vector>
-#include <bitset>
+#include <cassert>
+#include <sstream>
 
 #include "GameObject.h"
 #include "Player.h"
 #include "Monster.h"
 #include "EquipmentBox.h"
+#include "SpikeTrap.h"
+#include "eSymbolType.h"
+#include "Wall.h"
 
 namespace rpg_extreme
 {
@@ -24,6 +28,9 @@ namespace rpg_extreme
         bool IsPassable(const int8_t x, const int8_t y) const;
         Player& GetPlayer() const;
         std::string ToString() const;
+        int8_t GetBossMonsterPosX() const;
+        int8_t GetBossMonsterPosY() const;
+
 
     private:
         enum
@@ -37,8 +44,9 @@ namespace rpg_extreme
         uint16_t mItemBoxCount;
         uint16_t mMonsterCount;
         Player* mPlayer;
+        int8_t mBossMonsterPosX;
+        int8_t mBossMonsterPosY;
 
-        std::vector<std::bitset<MAX_WIDTH>> mPassables;
         std::vector<std::vector<std::vector<GameObject*>>> mGameObjects;
     };
 }
