@@ -39,6 +39,7 @@ namespace rpg_extreme
 
     void SpikeTrap::AttackTo(Character* character)
     {
+        Player* player = static_cast<Player*>(character);
+        player->OnAttack(this, DAMAGE);
     }
-
 }

@@ -95,7 +95,7 @@ namespace rpg_extreme
             case eSymbolType::ACCESSORY:
                 char type[3];
                 cin >> type;
-                if (*type == 'H')
+                if (*type == 'H' && type[1] == 'R')
                 {
                     mMap->AddGameObject(new EquipmentBox(x, y, new Accessory(eAccessoryEffectType::HP_REGENERATION)));
                 }
@@ -115,7 +115,7 @@ namespace rpg_extreme
                 {
                     mMap->AddGameObject(new EquipmentBox(x, y, new Accessory(eAccessoryEffectType::DEXTERITY)));
                 }
-                else if (*type == 'H')
+                else if (*type == 'H' && type[1] == 'U')
                 {
                     mMap->AddGameObject(new EquipmentBox(x, y, new Accessory(eAccessoryEffectType::HUNTER)));
                 }
@@ -172,37 +172,30 @@ namespace rpg_extreme
             if (gameObject->IsCharacter())
             {
                 Monster* monster = static_cast<Monster*>(gameObject);
-
                 if (monster->IsBoss())
                 {
-                    updateFightWithBossMonster(static_cast<BossMonster*>(monster));
+                    battleWithBossMonster(static_cast<BossMonster*>(monster));
                 }
                 else
                 {
-                    updateFightWithMonster(monster);
+                    battleWithMonster(monster);
                 }
             }
             else if (gameObject->IsEquipmentBox())
             {
-                updateGainEquipmentBox(static_cast<EquipmentBox*>(gameObject));
+                openEquipmentBox(static_cast<EquipmentBox*>(gameObject));
             }
             else if (gameObject->IsSpikeTrap())
             {
-                updateStepOnSpikeTrap(static_cast<SpikeTrap*>(gameObject));
+                stepOnSpikeTrap(static_cast<SpikeTrap*>(gameObject));
             }
-            else if (gameObject->IsWall())
-            {
-
-            }
-
 
             if (mbGameClear || !player.IsAlive())
             {
+                ++mTurnCount;
                 break;
             }
-        }
-
-        Print();
+        }     
     }
 
     void Game::Shutdown()
@@ -227,7 +220,103 @@ namespace rpg_extreme
         delete mMap;
     }
 
-    void Game::updateGainEquipmentBox(EquipmentBox* equipmentBox)
+    void Game::battleWithBossMonster(BossMonster* bossMonster)
+    {
+        Player& player = mMap->GetPlayer();
+        auto& gameObjects = mMap->GetGameObjectsByXY(player.GetX(), player.GetY());
+        
+        if (player.HasAccessoryEffect(eAccessoryEffectType::HUNTER))
+        {
+            player.SetHunterBuff();
+        }
+
+        if (player.HasAccessoryEffect(eAccessoryEffectType::COURAGE))
+        {
+            player.SetCourageBuff();
+        }
+
+        while (true)
+        {
+            player.AttackTo(bossMonster);
+            if (!bossMonster->IsAlive())
+            {
+                gameObjects.erase(gameObjects.begin());
+                player.AddExp(bossMonster->GetExp());
+                if (player.HasAccessoryEffect(eAccessoryEffectType::HP_REGENERATION))
+                {
+                    player.AddHp(3);
+                }
+                mbGameClear = true;
+
+                break;
+            }
+
+            bossMonster->AttackTo(&player);
+            if (!player.IsAlive())
+            {
+                if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
+                {
+                    player.DestroyReincarnationAccessory();
+                    player.MoveTo(player.GetInitX(), player.GetInitY());
+                    player.FillUpHp();
+                    bossMonster->FillUpHp();
+                }
+                else
+                {
+                    gameObjects.pop_back();
+                    mPlayerKillerName = bossMonster->GetName();
+                }
+
+                break;
+            }
+        }
+    }
+
+    void Game::battleWithMonster(Monster* monster)
+    {
+        Player& player = mMap->GetPlayer();
+        auto& gameObjects = mMap->GetGameObjectsByXY(player.GetX(), player.GetY());
+
+        if (player.HasAccessoryEffect(eAccessoryEffectType::COURAGE))
+        {
+            player.SetCourageBuff();
+        }
+
+        while (true)
+        {
+            player.AttackTo(monster);
+            if (!monster->IsAlive())
+            {
+                gameObjects.erase(gameObjects.begin());
+                player.AddExp(monster->GetExp());
+                if (player.HasAccessoryEffect(eAccessoryEffectType::HP_REGENERATION))
+                {
+                    player.AddHp(3);
+                }
+                break;
+            }
+
+            monster->AttackTo(&player);
+            if (!player.IsAlive())
+            {
+                if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
+                {
+                    player.DestroyReincarnationAccessory();
+                    player.MoveTo(player.GetInitX(), player.GetInitY());
+                    player.FillUpHp();
+                    monster->FillUpHp();
+                }
+                else
+                {
+                    gameObjects.pop_back();
+                    mPlayerKillerName = monster->GetName();
+                }
+                break;
+            }
+        }
+    }
+
+    void Game::openEquipmentBox(EquipmentBox* equipmentBox)
     {
         Player& player = mMap->GetPlayer();
         auto& gameObjects = mMap->GetGameObjectsByXY(player.GetX(), player.GetY());
@@ -251,137 +340,65 @@ namespace rpg_extreme
             Weapon* weapon = static_cast<Weapon*>(equipment);
             player.EquipWeapon(weapon);
         }
-        else
-        {
-            assert(false);
-        }
         equipmentBox->Remove();
         gameObjects.erase(gameObjects.begin());
     }
 
-    void Game::updateFightWithBossMonster(BossMonster* bossMonster)
+    void Game::stepOnSpikeTrap(SpikeTrap* spikeTrap)
     {
         Player& player = mMap->GetPlayer();
         auto& gameObjects = mMap->GetGameObjectsByXY(player.GetX(), player.GetY());
 
-        if (player.HasAccessoryEffect(eAccessoryEffectType::HUNTER))
-        {
-            player.FillUpHp();
-        }
+        spikeTrap->AttackTo(&player);
 
-        while (true)
+        if (!player.IsAlive())
         {
-            player.AttackTo(bossMonster);
-            if (!bossMonster->IsAlive())
+            if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
             {
-                gameObjects.erase(gameObjects.begin());
-                player.AddExp(bossMonster->GetExp());
-
-                if (player.HasAccessoryEffect(eAccessoryEffectType::HP_REGENERATION))
-                {
-                    //player.AddHp(3);
-                }
-
-                mbGameClear = true;
-
-                break;
+                player.DestroyReincarnationAccessory();
+                player.MoveTo(player.GetInitX(), player.GetInitY());
+                player.FillUpHp();
             }
-
-            bossMonster->AttackTo(&player);
-            if (!player.IsAlive())
+            else
             {
                 gameObjects.pop_back();
-
-                if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
-                {
-                    player.DestroyReincarnationAccessory();
-                    player.MoveTo(player.GetInitX(), player.GetInitY());
-                    player.FillUpHp();
-                    bossMonster->FillUpHp();
-                }
-
-                break;
+                mPlayerKillerName = "SPIKE TRAP";
             }
         }
     }
 
-    void Game::updateFightWithMonster(Monster* monster)
+    std::string Game::GetResultToString() const
     {
-        Player& player = mMap->GetPlayer();
-        auto& gameObjects = mMap->GetGameObjectsByXY(player.GetX(), player.GetY());
+        std::stringstream ss;
 
-
-        while (true)
-        {
-            player.AttackTo(monster);
-            if (!monster->IsAlive())
-            {
-                gameObjects.erase(gameObjects.begin());
-                player.AddExp(monster->GetExp());
-
-                if (player.HasAccessoryEffect(eAccessoryEffectType::HP_REGENERATION))
-                {
-                    player.AddHp(3);
-                }
-
-                break;
-            }
-
-            monster->AttackTo(&player);
-            if (!player.IsAlive())
-            {
-                gameObjects.pop_back();
-
-                if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
-                {
-                    player.DestroyReincarnationAccessory();
-                    player.MoveTo(player.GetInitX(), player.GetInitY());
-                    player.FillUpHp();
-                    monster->FillUpHp();
-                }
-                else
-                {
-                    mbGameClear = true;
-                }
-
-
-                break;
-            }
-        }
-    }
-
-    void Game::updateStepOnSpikeTrap(SpikeTrap* spikeTrap)
-    {
-        Player& player = mMap->GetPlayer();
-        player.OnAttack(*spikeTrap, 5);
-    }
-
-    void Game::Print() const
-    {
         Player& player = mMap->GetPlayer();
 
-        cout << mMap->ToString() << '\n';
-        cout << "Passed Turns : " << mTurnCount << '\n';
-        cout << "LV : " << player.GetLevel() << '\n';
-        cout << "HP : " << player.GetHp() << '/' << player.GetMaxHp() << '\n';
-        cout << "ATT : " << player.GetAttack() << '+' << player.GetWeaponAttack() << '\n';
-        cout << "DEF : " << player.GetDefense() << '+' << player.GetArmorDefense() << '\n';
-        cout << "EXP : " << player.GetExp() << '/' << player.GetMaxExp() << '\n';
+        ss << mMap->ToString();
+        ss << "Passed Turns : " << mTurnCount << '\n';
+        ss << "LV : " << player.GetLevel() << '\n';
+        ss << "HP : " << player.GetHp() << '/' << player.GetMaxHp() << '\n';
+        ss << "ATT : " << player.GetAttack() << '+' << player.GetWeaponAttack() << '\n';
+        ss << "DEF : " << player.GetDefense() << '+' << player.GetArmorDefense() << '\n';
+        ss << "EXP : " << player.GetExp() << '/' << player.GetMaxExp() << '\n';
 
         if (mbGameClear)
         {
-            cout << "YOU WIN!" << '\n';
+            ss << "YOU WIN!" << '\n';
         }
         else
         {
             if (player.IsAlive())
             {
-                cout << "Press any key to continue." << '\n';
+                ss << "Press any key to continue." << '\n';
             }
             else
             {
-                cout << "YOU HAVE BEEN KILLED BY " << "" << ".." << '\n';
+                ss << "YOU HAVE BEEN KILLED BY " << mPlayerKillerName << ".." << '\n';
             }
         }
+
+        ss << '\n';
+
+        return ss.str();
     }
 }

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "eSymbolType.h"
 #include "Character.h"
+#include "Player.h"
 #include "IAttackable.h"
 
 namespace rpg_extreme
@@ -20,5 +21,11 @@ namespace rpg_extreme
 
         virtual bool IsAttackable() const;
         virtual void AttackTo(Character* character);
+
+    private:
+        enum
+        {
+            DAMAGE = 5
+        };
     };
 }

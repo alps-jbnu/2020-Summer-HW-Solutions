@@ -20,7 +20,7 @@ namespace rpg_extreme
         virtual bool IsAttackable() const;
         virtual bool IsAttackedable() const;
         virtual void AttackTo(Character* character);
-        virtual void OnAttack(const GameObject& gameObject, const int16_t damage);
+        virtual void OnAttack(GameObject* gameObject, const int16_t damage);
 
         const std::string& GetName() const;
         virtual bool IsBoss() const;

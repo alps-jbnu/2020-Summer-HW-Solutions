@@ -11,6 +11,9 @@ int main()
 
     Game& game = Game::GetInstance();
     game.Start();
+    
+    std::cout << game.GetResultToString();
+
     game.Shutdown();
 
     return 0;

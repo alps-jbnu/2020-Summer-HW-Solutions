@@ -24,7 +24,7 @@ namespace rpg_extreme
         virtual bool IsAttackable() const;
         virtual bool IsAttackedable() const;
         virtual void AttackTo(Character* character);
-        virtual void OnAttack(const GameObject& gameObject, const int16_t damage);
+        virtual void OnAttack(GameObject* gameObject, const int16_t damage);
 
         void MoveLeft();
         void MoveRight();
@@ -47,6 +47,8 @@ namespace rpg_extreme
         void AddExp(int16_t exp);
         void AddHp(const int16_t hp);
         void DestroyReincarnationAccessory();
+        void SetCourageBuff();
+        void SetHunterBuff();
 
     private:
         enum
@@ -61,5 +63,8 @@ namespace rpg_extreme
         Weapon* mWeapon;
         Armor* mArmor;
         std::vector<Accessory*> mAccessories;
+
+        bool mbCourageBuff;
+        bool mbHunterBuff;
     };
 }

@@ -13,6 +13,8 @@ namespace rpg_extreme
         , mArmor(NULL)
         , mInitX(x)
         , mInitY(y)
+        , mbCourageBuff(false)
+        , mbHunterBuff(false)
     {
         mAccessories.reserve(ACCESSORY_SLOT_CAPACITY);
     }
@@ -45,11 +47,12 @@ namespace rpg_extreme
     void Player::AttackTo(Character* character)
     {
         assert(this != character);
-        int16_t damage = mAttack + GetWeaponAttack();
-        
+
         Monster* monster = static_cast<Monster*>(character);
 
-        if (HasAccessoryEffect(eAccessoryEffectType::COURAGE))
+        int16_t damage = mAttack + GetWeaponAttack();
+
+        if (mbCourageBuff)
         {
             if (HasAccessoryEffect(eAccessoryEffectType::DEXTERITY))
             {
@@ -59,32 +62,45 @@ namespace rpg_extreme
             {
                 damage <<= 1;
             }
+            mbCourageBuff = false;
         }
 
-        damage -= character->GetDefense();
+        damage -= monster->GetDefense();
         
         if (damage <= 0)
         {
             damage = 1;
         }
-        monster->OnAttack(*this, damage);
+
+        monster->OnAttack(this, damage);
     }
 
-    void Player::OnAttack(const GameObject& gameObject, const int16_t damage)
+    void Player::OnAttack(GameObject* gameObject, const int16_t damage)
     {
-        if (gameObject.IsCharacter())
+        if (gameObject->IsCharacter())
         {
+            Monster* monster = static_cast<Monster*>(gameObject);
+
+            if (monster->IsBoss())
+            {
+                if (mbHunterBuff)
+                {
+                    mbHunterBuff = false;
+                    return;
+                }
+            }
+
             mHp -= damage;
         }
-        else if (gameObject.IsSpikeTrap())
+        else if (gameObject->IsSpikeTrap())
         {
             if (HasAccessoryEffect(eAccessoryEffectType::DEXTERITY))
             {
-                mHp -= 5;
+                --mHp;
             }
             else
             {
-                --mHp;
+                mHp -= damage;
             }
         }
 
@@ -251,5 +267,16 @@ namespace rpg_extreme
                 return;
             }
         }
+    }
+
+    void Player::SetCourageBuff()
+    {
+        mbCourageBuff = true;
+    }
+
+    void Player::SetHunterBuff()
+    {
+        mbHunterBuff = true;
+        FillUpHp();
     }
 }

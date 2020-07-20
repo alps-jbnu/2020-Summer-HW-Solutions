@@ -24,20 +24,21 @@ namespace rpg_extreme
         void Start();
         void Shutdown();
         Map& GetMap() const;
-        void Print() const;
+        std::string GetResultToString() const;
 
     private:
         Game();
         ~Game();
 
-        void updateGainEquipmentBox(EquipmentBox* equipmentBox);
-        void updateFightWithBossMonster(BossMonster* bossMonster);
-        void updateFightWithMonster(Monster* monster);
-        void updateStepOnSpikeTrap(SpikeTrap* spikeTrap);
+        void openEquipmentBox(EquipmentBox* equipmentBox);
+        void battleWithBossMonster(BossMonster* bossMonster);
+        void battleWithMonster(Monster* monster);
+        void stepOnSpikeTrap(SpikeTrap* spikeTrap);
 
         static Game* sInstance;
         Map* mMap;
         uint16_t mTurnCount;
         bool mbGameClear;
+        std::string mPlayerKillerName;
     };
 }
