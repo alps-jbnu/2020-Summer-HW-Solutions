@@ -1,8 +1,5 @@
-#include <cassert>
-
-#include "Player.h"
-#include "eSymbolType.h"
 #include "Game.h"
+#include "Player.h"
 
 namespace rpg_extreme
 {
@@ -115,12 +112,10 @@ namespace rpg_extreme
         Map& map = Game::GetInstance().GetMap();
         if (map.IsPassable(x, y))
         {
-            auto& gameObjects = map.GetGameObjectsByXY(mX, mY);
-            auto& player = gameObjects.back();
-            gameObjects.pop_back();
-            map.GetGameObjectsByXY(x, y).push_back(player);
+            map.Remove(this);
             mX = x;
             mY = y;
+            map.Spawn(this);
         }
     }
 

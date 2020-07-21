@@ -2,7 +2,9 @@
 
 #include <cstdint>
 #include <vector>
+#include <cassert>
 
+#include "eSymbolType.h"
 #include "Character.h"
 #include "Weapon.h"
 #include "Armor.h"
@@ -50,6 +52,7 @@ namespace rpg_extreme
         uint16_t GetMaxExp() const;
         int16_t GetWeaponAttack() const;
         int16_t GetArmorDefense() const;
+
         int8_t GetInitX() const;
         int8_t GetInitY() const;
 

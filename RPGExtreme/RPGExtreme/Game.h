@@ -30,14 +30,15 @@ namespace rpg_extreme
         Game();
         ~Game();
 
-        void openEquipmentBox(EquipmentBox* equipmentBox);
-        void battleWithBossMonster(BossMonster* bossMonster);
-        void battleWithMonster(Monster* monster);
-        void stepOnSpikeTrap(SpikeTrap* spikeTrap);
+        void openEquipmentBox(EquipmentBox* const equipmentBox);
+        void battleWithBossMonster(BossMonster* const bossMonster);
+        void battleWithMonster(Monster* const monster);
+        void stepOnSpikeTrap(SpikeTrap* const spikeTrap);
 
         static Game* sInstance;
+
         Map* mMap;
-        uint16_t mTurnCount;
+        size_t mTurnCount;
         bool mbGameClear;
         std::string mPlayerKillerName;
     };

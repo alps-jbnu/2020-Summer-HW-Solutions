@@ -7,13 +7,14 @@ namespace rpg_extreme
     class Armor final : public Equipment
     {
     public:
-        Armor(const uint16_t defense);
+        Armor(const int16_t defense);
+
         virtual bool IsArmor() const;
         virtual bool IsAccessory() const;
         virtual bool IsWeapon() const;
-        uint16_t GetDefense() const;
+        int16_t GetDefense() const;
 
     private:
-        const uint16_t mDefense;
+        const int16_t mDefense;
     };
 }

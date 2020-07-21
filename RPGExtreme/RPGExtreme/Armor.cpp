@@ -2,7 +2,7 @@
 
 namespace rpg_extreme
 {
-    Armor::Armor(const uint16_t defense)
+    Armor::Armor(const int16_t defense)
         : mDefense(defense)
     {
     }
@@ -22,7 +22,7 @@ namespace rpg_extreme
         return false;
     }
     
-    uint16_t Armor::GetDefense() const
+    int16_t Armor::GetDefense() const
     {
         return mDefense;
     }

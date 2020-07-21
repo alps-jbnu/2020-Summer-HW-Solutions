@@ -20,8 +20,9 @@ namespace rpg_extreme
         virtual bool IsWall() const override;
         virtual bool IsSpikeTrap() const override;
 
+        void Opened();
+
         Equipment* GetEquipment() const;
-        void Remove();
 
     private:
         Equipment* mEquipment;

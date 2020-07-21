@@ -4,6 +4,7 @@
 #include <vector>
 #include <cassert>
 #include <sstream>
+#include <algorithm>
 
 #include "GameObject.h"
 #include "Player.h"
@@ -21,32 +22,28 @@ namespace rpg_extreme
         Map(const uint8_t width, const uint8_t height, const std::vector<std::string>& mapData);
         ~Map();
 
-        uint16_t GetItemBoxCount() const;
-        uint16_t GetMonsterCount() const;
-        void AddGameObject(GameObject* gameObject);
-        std::vector<GameObject*>& GetGameObjectsByXY(const int8_t x, const int8_t y);
+        size_t GetItemBoxCount() const;
+        size_t GetMonsterCount() const;
+        void Spawn(GameObject* const gameObject);
+        bool Remove(GameObject* const gameObject);
+        size_t GetGameObjectCount(const int8_t x, const int8_t y) const;
+        GameObject* GetGameObject(const int8_t x, const int8_t y, const uint8_t index) const;
         bool IsPassable(const int8_t x, const int8_t y) const;
-        Player& GetPlayer() const;
+        Player* GetPlayer() const;
         std::string ToString() const;
+
         int8_t GetBossMonsterPosX() const;
         int8_t GetBossMonsterPosY() const;
 
-
     private:
-        enum
-        {
-            MAX_WIDTH = 100,
-            MAX_HEIGHT = 100
-        };
-
         const uint8_t mWidth;
         const uint8_t mHeight;
-        uint16_t mItemBoxCount;
-        uint16_t mMonsterCount;
-        Player* mPlayer;
+        size_t mItemBoxCount;
+        size_t mMonsterCount;
         int8_t mBossMonsterPosX;
         int8_t mBossMonsterPosY;
 
+        Player* mPlayer;
         std::vector<std::vector<std::vector<GameObject*>>> mGameObjects;
     };
 }

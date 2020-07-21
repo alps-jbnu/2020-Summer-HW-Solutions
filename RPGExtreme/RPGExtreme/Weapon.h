@@ -11,9 +11,9 @@ namespace rpg_extreme
         virtual bool IsArmor() const;
         virtual bool IsAccessory() const;
         virtual bool IsWeapon() const;
-        uint16_t GetAttack() const;
+        int16_t GetAttack() const;
 
     private:
-        const uint16_t mAttack;
+        const int16_t mAttack;
     };
 }

@@ -11,7 +11,6 @@ namespace rpg_extreme
         , mBossMonsterPosX(0)
         , mBossMonsterPosY(0)
     {
-
         mGameObjects.reserve(mHeight);
         for (int y = 0; y < mHeight; ++y)
         {
@@ -23,7 +22,6 @@ namespace rpg_extreme
                 rowVector.push_back(std::vector<GameObject*>());
 
                 const char symbol = mapData[y][x];
-
                 switch (symbol)
                 {
                 case eSymbolType::BLANK:
@@ -66,36 +64,59 @@ namespace rpg_extreme
 
     Map::~Map()
     {
+        Remove(mPlayer);
+        delete mPlayer;
+
         for (auto& rowVector : mGameObjects)
         {
             for (auto& columnVector : rowVector)
             {
                 for (auto objectPtr : columnVector)
                 {
-                    delete objectPtr; // including mPlayer
+                    delete objectPtr;
                 }
             }
         }
     }
 
-    uint16_t Map::GetItemBoxCount() const
+    size_t Map::GetItemBoxCount() const
     {
         return mItemBoxCount;
     }
 
-    uint16_t Map::GetMonsterCount() const
+    size_t Map::GetMonsterCount() const
     {
         return mMonsterCount;
     }
 
-    std::vector<GameObject*>& Map::GetGameObjectsByXY(const int8_t x, const int8_t y)
-    {
-        return mGameObjects[y][x];
-    }
-
-    void Map::AddGameObject(GameObject* gameObject)
+    void Map::Spawn(GameObject* const gameObject)
     {
         mGameObjects[gameObject->GetY()][gameObject->GetX()].push_back(gameObject);
+    }
+
+    bool Map::Remove(GameObject* const gameObject)
+    {
+        auto& gameObjects = mGameObjects[gameObject->GetY()][gameObject->GetX()];
+        auto it = std::find(gameObjects.begin(), gameObjects.end(), gameObject);
+
+        if (it == gameObjects.end())
+        {
+            return false;
+        }
+
+        gameObjects.erase(it);
+
+        return true;
+    }
+
+    size_t Map::GetGameObjectCount(const int8_t x, const int8_t y) const
+    {
+        return mGameObjects[y][x].size();
+    }
+
+    GameObject* Map::GetGameObject(const int8_t x, const int8_t y, const uint8_t index) const
+    {
+        return mGameObjects[y][x][index];
     }
 
     bool Map::IsPassable(const int8_t x, const int8_t y) const
@@ -103,9 +124,9 @@ namespace rpg_extreme
         return x >= 0 && x < mWidth && y >= 0 && y < mHeight && (mGameObjects[y][x].empty() || !mGameObjects[y][x].front()->IsWall());
     }
 
-    Player& Map::GetPlayer() const
+    Player* Map::GetPlayer() const
     {
-        return *mPlayer;
+        return mPlayer;
     }
 
     std::string Map::ToString() const

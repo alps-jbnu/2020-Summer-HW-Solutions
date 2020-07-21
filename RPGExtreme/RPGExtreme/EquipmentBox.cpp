@@ -38,13 +38,13 @@ namespace rpg_extreme
         return false;
     }
 
+    void EquipmentBox::Opened()
+    {
+        mEquipment = NULL;
+    }
+
     Equipment* EquipmentBox::GetEquipment() const
     {
         return mEquipment;
-    }
-
-    void EquipmentBox::Remove()
-    {
-        mEquipment = NULL;
     }
 }

@@ -23,7 +23,7 @@ namespace rpg_extreme
         return true;
     }
 
-    uint16_t Weapon::GetAttack() const
+    int16_t Weapon::GetAttack() const
     {
         return mAttack;
     }
