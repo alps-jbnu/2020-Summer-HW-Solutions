@@ -3,8 +3,7 @@
 namespace rpg_extreme
 {
     Weapon::Weapon(const int16_t attack)
-        : Equipment()
-        , mAttack(attack)
+        : mAttack(attack)
     {
     }
 

@@ -19,10 +19,10 @@ namespace rpg_extreme
         virtual bool IsPlayer() const override;
         virtual bool IsMonster() const override;
 
-        virtual bool IsAttackable() const;
-        virtual bool IsAttackedable() const;
-        virtual void AttackTo(Character* const character);
-        virtual void OnAttack(GameObject* const gameObject, const int16_t damage);
+        virtual bool IsAttackable() const override;
+        virtual bool IsAttackedable() const override;
+        virtual void AttackTo(Character* const character) override;
+        virtual void OnAttack(GameObject* const gameObject, const int16_t damage) override;
 
         const std::string& GetName() const;
         virtual bool IsBoss() const;

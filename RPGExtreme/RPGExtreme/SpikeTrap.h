@@ -19,8 +19,8 @@ namespace rpg_extreme
         virtual bool IsWall() const override;
         virtual bool IsSpikeTrap() const override;
 
-        virtual bool IsAttackable() const;
-        virtual void AttackTo(Character* const character);
+        virtual bool IsAttackable() const override;
+        virtual void AttackTo(Character* const character) override;
 
     private:
         enum

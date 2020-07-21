@@ -17,4 +17,3 @@ namespace rpg_extreme
         virtual bool IsSpikeTrap() const override;
     };
 }
-

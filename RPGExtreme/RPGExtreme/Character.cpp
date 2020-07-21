@@ -12,7 +12,6 @@ namespace rpg_extreme
     {
     }
 
-
     bool Character::IsCharacter() const
     {
         return true;
@@ -29,16 +28,6 @@ namespace rpg_extreme
     }
 
     bool Character::IsSpikeTrap() const
-    {
-        return false;
-    }
-
-    bool Character::IsPlayer() const
-    {
-        return false;
-    }
-
-    bool Character::IsMonster() const
     {
         return false;
     }
@@ -73,7 +62,7 @@ namespace rpg_extreme
         return mDefense;
     }
 
-    int16_t Character::GetExp() const
+    uint16_t Character::GetExp() const
     {
         return mExp;
     }
