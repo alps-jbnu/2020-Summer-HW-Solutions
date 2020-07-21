@@ -256,7 +256,7 @@ namespace rpg_extreme
             {
                 if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
                 {
-                    player.DestroyReincarnationAccessory();
+                    player.UnequipReincarnationAccessory();
                     player.MoveTo(player.GetInitX(), player.GetInitY());
                     player.FillUpHp();
                     bossMonster->FillUpHp();
@@ -301,7 +301,7 @@ namespace rpg_extreme
             {
                 if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
                 {
-                    player.DestroyReincarnationAccessory();
+                    player.UnequipReincarnationAccessory();
                     player.MoveTo(player.GetInitX(), player.GetInitY());
                     player.FillUpHp();
                     monster->FillUpHp();
@@ -355,7 +355,7 @@ namespace rpg_extreme
         {
             if (player.HasAccessoryEffect(eAccessoryEffectType::REINCARNATION))
             {
-                player.DestroyReincarnationAccessory();
+                player.UnequipReincarnationAccessory();
                 player.MoveTo(player.GetInitX(), player.GetInitY());
                 player.FillUpHp();
             }

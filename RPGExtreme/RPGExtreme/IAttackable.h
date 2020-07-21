@@ -8,6 +8,6 @@ namespace rpg_extreme
     {
     public:
         virtual bool IsAttackable() const = 0;
-        virtual void AttackTo(Character* character) = 0;
+        virtual void AttackTo(Character* const character) = 0;
     };
 }

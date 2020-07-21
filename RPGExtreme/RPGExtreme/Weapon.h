@@ -7,7 +7,7 @@ namespace rpg_extreme
     class Weapon final : public Equipment
     {
     public:
-        Weapon(const uint16_t attack);
+        Weapon(const int16_t attack);
         virtual bool IsArmor() const;
         virtual bool IsAccessory() const;
         virtual bool IsWeapon() const;

@@ -15,22 +15,22 @@ namespace rpg_extreme
         virtual bool IsPlayer() const;
         virtual bool IsMonster() const;
 
+        bool IsAlive() const;
+        void FillUpHp();
+
         int16_t GetHp() const;
         int16_t GetMaxHp() const;
         int16_t GetAttack() const;
         int16_t GetDefense() const;
-        int16_t GetExp() const;
-
-        bool IsAlive() const;
-        void FillUpHp();
+        int16_t GetExp() const;        
 
     protected:
-        Character(const int8_t x, const int8_t y, const int16_t attack, const int16_t defense, const int16_t hp, const int16_t exp);
+        Character(const int8_t x, const int8_t y, const int16_t attack, const int16_t defense, const int16_t hp, const uint16_t exp);
 
         int16_t mHp;
         int16_t mMaxHp;
         int16_t mAttack;
         int16_t mDefense;
-        int16_t mExp;
+        uint16_t mExp;
     };
 }

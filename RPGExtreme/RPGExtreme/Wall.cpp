@@ -1,6 +1,4 @@
-
 #include "Wall.h"
-#include "eSymbolType.h"
 
 namespace rpg_extreme
 {

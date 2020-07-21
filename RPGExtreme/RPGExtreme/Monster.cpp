@@ -1,10 +1,8 @@
 #include "Monster.h"
-#include "eSymbolType.h"
-#include "Player.h"
 
 namespace rpg_extreme
 {
-    Monster::Monster(const int8_t x, const int8_t y, const std::string& name, const int16_t attack, const int16_t defense, const int16_t hp, const int16_t exp)
+    Monster::Monster(const int8_t x, const int8_t y, const std::string& name, const int16_t attack, const int16_t defense, const int16_t hp, const uint16_t exp)
         : Character(x, y, attack, defense, hp, exp)
         , mName(name)
     {
@@ -35,7 +33,7 @@ namespace rpg_extreme
         return true;
     }
 
-    void Monster::AttackTo(Character* character)
+    void Monster::AttackTo(Character* const character)
     {
         Player* player = static_cast<Player*>(character);
         int16_t damage = mAttack - (player->GetDefense() + player->GetArmorDefense());
@@ -46,10 +44,10 @@ namespace rpg_extreme
         player->OnAttack(this, damage);
     }
 
-    void Monster::OnAttack(GameObject* gameObject, const int16_t damage)
+    void Monster::OnAttack(GameObject* const gameObject, const int16_t damage)
     {
         mHp -= damage;
-        if (mHp <= 0)
+        if (mHp < 0)
         {
             mHp = 0;
         }

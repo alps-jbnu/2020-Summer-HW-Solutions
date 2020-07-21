@@ -20,7 +20,7 @@ namespace rpg_extreme
         virtual bool IsSpikeTrap() const override;
 
         virtual bool IsAttackable() const;
-        virtual void AttackTo(Character* character);
+        virtual void AttackTo(Character* const character);
 
     private:
         enum

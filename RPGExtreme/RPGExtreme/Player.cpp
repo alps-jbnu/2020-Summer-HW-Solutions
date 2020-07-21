@@ -44,7 +44,7 @@ namespace rpg_extreme
         return true;
     }
 
-    void Player::AttackTo(Character* character)
+    void Player::AttackTo(Character* const character)
     {
         assert(this != character);
 
@@ -75,7 +75,7 @@ namespace rpg_extreme
         monster->OnAttack(this, damage);
     }
 
-    void Player::OnAttack(GameObject* gameObject, const int16_t damage)
+    void Player::OnAttack(GameObject* const gameObject, const int16_t damage)
     {
         if (gameObject->IsCharacter())
         {
@@ -104,9 +104,23 @@ namespace rpg_extreme
             }
         }
 
-        if (mHp <= 0)
+        if (mHp < 0)
         {
             mHp = 0;
+        }
+    }
+
+    void Player::MoveTo(const int8_t x, const int8_t y)
+    {
+        Map& map = Game::GetInstance().GetMap();
+        if (map.IsPassable(x, y))
+        {
+            auto& gameObjects = map.GetGameObjectsByXY(mX, mY);
+            auto& player = gameObjects.back();
+            gameObjects.pop_back();
+            map.GetGameObjectsByXY(x, y).push_back(player);
+            mX = x;
+            mY = y;
         }
     }
 
@@ -130,66 +144,56 @@ namespace rpg_extreme
         MoveTo(mX, mY + 1);
     }
 
-    void Player::MoveTo(const int8_t x, const int8_t y)
+    void Player::AddHp(const int16_t hp)
     {
-        Map& map = Game::GetInstance().GetMap();
-        if (map.IsPassable(x, y))
+        mHp += hp;
+        if (mHp > mMaxHp)
         {
-            auto& gameObjects = map.GetGameObjectsByXY(mX, mY);
-            auto& player = gameObjects.back();
-            gameObjects.pop_back();
-            map.GetGameObjectsByXY(x, y).push_back(player);
-            mX = x;
-            mY = y;
+            mHp = mMaxHp;
         }
     }
 
-    int16_t Player::GetLevel() const
+    void Player::AddExp(uint16_t exp)
     {
-        return mLevel;
-    }
-
-    int16_t Player::GetWeaponAttack() const
-    {
-        if (mWeapon == NULL)
+        if (HasAccessoryEffect(eAccessoryEffectType::EXPERIENCE))
         {
-            return 0;
+            exp = static_cast<uint16_t>(exp * 1.2);
         }
-        return mWeapon->GetAttack();
-    }
 
-    int16_t Player::GetArmorDefense() const
-    {
-        if (mArmor == NULL)
+        mExp += exp;
+
+        if (mExp >= GetMaxExp())
         {
-            return 0;
+            ++mLevel;
+            mMaxHp += 5;
+            mAttack += 2;
+            mDefense += 2;
+            mHp = mMaxHp;
+            mExp = 0;
         }
-        return mArmor->GetDefense();
     }
 
-    int16_t Player::GetMaxExp() const
-    {
-        return 5 * mLevel;
-    }
-
-    int8_t Player::GetInitX() const
-    {
-        return mInitX;
-    }
-
-    int8_t Player::GetInitY() const
-    {
-        return mInitY;
-    }
-
-    void Player::EquipArmor(Armor* armor)
+    void Player::EquipArmor(Armor* const armor)
     {
         mArmor = armor;
     }
 
-    void Player::EquipAccessory(Accessory* accessory)
+    void Player::EquipAccessory(Accessory* const accessory)
     {
         mAccessories.push_back(accessory);
+    }
+
+    void Player::UnequipReincarnationAccessory()
+    {
+        for (std::vector<Accessory*>::iterator it = mAccessories.begin(); it != mAccessories.end();)
+        {
+            if ((*it)->GetType() == eAccessoryEffectType::REINCARNATION)
+            {
+                it = mAccessories.erase(it);
+                return;
+            }
+            ++it;
+        }
     }
 
     void Player::EquipWeapon(Weapon* weapon)
@@ -197,15 +201,15 @@ namespace rpg_extreme
         mWeapon = weapon;
     }
 
-    bool Player::IsAccessoryEquippable(const Accessory* accessory) const
+    bool Player::IsAccessoryEquippable(const Accessory* const accessory) const
     {
         if (mAccessories.size() >= ACCESSORY_SLOT_CAPACITY)
         {
             return false;
         }
 
-        auto type = accessory->GetType();
-        for (const auto& equippedAccessory : mAccessories)
+        eAccessoryEffectType type = accessory->GetType();
+        for (const Accessory* equippedAccessory : mAccessories)
         {
             if (equippedAccessory->GetType() == type)
             {
@@ -229,46 +233,6 @@ namespace rpg_extreme
         return false;
     }
 
-    void Player::AddExp(int16_t exp)
-    {
-        if (HasAccessoryEffect(eAccessoryEffectType::EXPERIENCE))
-        {
-            exp = static_cast<uint16_t>(exp * 1.2);
-        }
-
-        mExp += exp;
-        if (mExp >= GetMaxExp())
-        {
-            ++mLevel;
-            mMaxHp += 5;
-            mAttack += 2;
-            mDefense += 2;
-            mHp = mMaxHp;
-            mExp = 0;
-        }
-    }
-
-    void Player::AddHp(const int16_t hp)
-    {
-        mHp += hp;
-        if (mHp > mMaxHp)
-        {
-            mHp = mMaxHp;
-        }
-    }
-
-    void Player::DestroyReincarnationAccessory()
-    {
-        for (std::vector<Accessory*>::iterator it = mAccessories.begin(); it != mAccessories.end();)
-        {
-            if ((*it)->GetType() == eAccessoryEffectType::REINCARNATION)
-            {
-                mAccessories.erase(it);
-                return;
-            }
-        }
-    }
-
     void Player::SetCourageBuff()
     {
         mbCourageBuff = true;
@@ -278,5 +242,43 @@ namespace rpg_extreme
     {
         mbHunterBuff = true;
         FillUpHp();
+    }
+
+    uint16_t Player::GetLevel() const
+    {
+        return mLevel;
+    }
+
+    uint16_t Player::GetMaxExp() const
+    {
+        return 5 * mLevel;
+    }
+
+    int16_t Player::GetWeaponAttack() const
+    {
+        if (mWeapon == NULL)
+        {
+            return 0;
+        }
+        return mWeapon->GetAttack();
+    }
+
+    int16_t Player::GetArmorDefense() const
+    {
+        if (mArmor == NULL)
+        {
+            return 0;
+        }
+        return mArmor->GetDefense();
+    }
+
+    int8_t Player::GetInitX() const
+    {
+        return mInitX;
+    }
+
+    int8_t Player::GetInitY() const
+    {
+        return mInitY;
     }
 }

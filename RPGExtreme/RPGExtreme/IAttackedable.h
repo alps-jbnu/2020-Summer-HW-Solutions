@@ -8,6 +8,6 @@ namespace rpg_extreme
     {
     public:
         virtual bool IsAttackedable() const = 0;
-        virtual void OnAttack(GameObject* gameObject, const int16_t damage) = 0;
+        virtual void OnAttack(GameObject* const gameObject, const int16_t damage) = 0;
     };
 }

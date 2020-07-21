@@ -23,32 +23,35 @@ namespace rpg_extreme
 
         virtual bool IsAttackable() const;
         virtual bool IsAttackedable() const;
-        virtual void AttackTo(Character* character);
-        virtual void OnAttack(GameObject* gameObject, const int16_t damage);
+        virtual void AttackTo(Character* const character);
+        virtual void OnAttack(GameObject* const gameObject, const int16_t damage);
 
+        void MoveTo(const int8_t x, const int8_t y);
         void MoveLeft();
         void MoveRight();
         void MoveUp();
         void MoveDown();
-        void MoveTo(const int8_t x, const int8_t y);
         
-        int16_t GetLevel() const;
-        int16_t GetWeaponAttack() const;
-        int16_t GetArmorDefense() const;
-        int16_t GetMaxExp() const;
-        int8_t GetInitX() const;
-        int8_t GetInitY() const;
-
-        void EquipArmor(Armor* armor);
-        void EquipAccessory(Accessory* accessory);
-        void EquipWeapon(Weapon* weapon);
-        bool IsAccessoryEquippable(const Accessory* accessory) const;
-        bool HasAccessoryEffect(const eAccessoryEffectType accesoryEffectType) const;
-        void AddExp(int16_t exp);
         void AddHp(const int16_t hp);
-        void DestroyReincarnationAccessory();
+        void AddExp(uint16_t exp);
+
+        void EquipArmor(Armor* const armor);
+        void EquipAccessory(Accessory* const accessory);
+        void UnequipReincarnationAccessory();
+        void EquipWeapon(Weapon* const weapon);
+        
+        bool IsAccessoryEquippable(const Accessory* const accessory) const;
+        bool HasAccessoryEffect(const eAccessoryEffectType accesoryEffectType) const;
+
         void SetCourageBuff();
         void SetHunterBuff();
+
+        uint16_t GetLevel() const;
+        uint16_t GetMaxExp() const;
+        int16_t GetWeaponAttack() const;
+        int16_t GetArmorDefense() const;
+        int8_t GetInitX() const;
+        int8_t GetInitY() const;
 
     private:
         enum
@@ -56,15 +59,15 @@ namespace rpg_extreme
             ACCESSORY_SLOT_CAPACITY = 4
         };
 
-        const int8_t mInitX;
-        const int8_t mInitY;
-
-        int16_t mLevel;
+        uint16_t mLevel;
         Weapon* mWeapon;
         Armor* mArmor;
         std::vector<Accessory*> mAccessories;
 
         bool mbCourageBuff;
         bool mbHunterBuff;
+
+        const int8_t mInitX;
+        const int8_t mInitY;
     };
 }

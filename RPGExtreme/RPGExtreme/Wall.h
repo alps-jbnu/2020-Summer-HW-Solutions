@@ -1,5 +1,6 @@
 #pragma once
 
+#include "eSymbolType.h"
 #include "GameObject.h"
 
 namespace rpg_extreme
