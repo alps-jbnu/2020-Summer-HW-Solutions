@@ -18,7 +18,7 @@ namespace rpg_extreme
     {
     public:
         Player(const int8_t x, const int8_t y);
-
+        ~Player();
         virtual char GetSymbol() const;
         virtual bool IsPlayer() const;
         virtual bool IsMonster() const;

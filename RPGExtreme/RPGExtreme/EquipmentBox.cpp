@@ -8,11 +8,6 @@ namespace rpg_extreme
     {
     }
 
-    EquipmentBox::~EquipmentBox()
-    {
-        delete mEquipment;
-    }
-
     char EquipmentBox::GetSymbol() const
     {
         return eSymbolType::ITEM_BOX;
@@ -38,13 +33,10 @@ namespace rpg_extreme
         return false;
     }
 
-    void EquipmentBox::Opened()
+    Equipment* EquipmentBox::GetEquipment()
     {
+        Equipment* equipment = mEquipment;
         mEquipment = NULL;
-    }
-
-    Equipment* EquipmentBox::GetEquipment() const
-    {
-        return mEquipment;
+        return equipment;
     }
 }

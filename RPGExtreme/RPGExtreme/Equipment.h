@@ -10,8 +10,5 @@ namespace rpg_extreme
         virtual bool IsArmor() const = 0;
         virtual bool IsAccessory() const = 0;
         virtual bool IsWeapon() const = 0;
-
-    protected:
-        Equipment();
     };
 }

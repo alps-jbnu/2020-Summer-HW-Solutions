@@ -16,6 +16,16 @@ namespace rpg_extreme
         mAccessories.reserve(ACCESSORY_SLOT_CAPACITY);
     }
 
+    Player::~Player()
+    {
+        delete mWeapon;
+        delete mArmor;
+        for (Accessory* accessory : mAccessories)
+        {
+            delete accessory;
+        }
+    }
+
     char Player::GetSymbol() const
     {
         return eSymbolType::PLAYER;
@@ -170,6 +180,7 @@ namespace rpg_extreme
 
     void Player::EquipArmor(Armor* const armor)
     {
+        delete mArmor;
         mArmor = armor;
     }
 
@@ -184,6 +195,7 @@ namespace rpg_extreme
         {
             if ((*it)->GetType() == eAccessoryEffectType::REINCARNATION)
             {
+                delete *it;
                 it = mAccessories.erase(it);
                 return;
             }
@@ -191,8 +203,9 @@ namespace rpg_extreme
         }
     }
 
-    void Player::EquipWeapon(Weapon* weapon)
+    void Player::EquipWeapon(Weapon* const weapon)
     {
+        delete mWeapon;
         mWeapon = weapon;
     }
 
@@ -203,7 +216,7 @@ namespace rpg_extreme
             return false;
         }
 
-        eAccessoryEffectType type = accessory->GetType();
+        const eAccessoryEffectType type = accessory->GetType();
         for (const Accessory* equippedAccessory : mAccessories)
         {
             if (equippedAccessory->GetType() == type)

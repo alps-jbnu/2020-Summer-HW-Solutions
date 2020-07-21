@@ -325,6 +325,10 @@ namespace rpg_extreme
             {
                 player->EquipAccessory(accessory);
             }
+            else
+            {
+                delete accessory;
+            }
         }
         else if (equipment->IsArmor())
         {
@@ -336,10 +340,7 @@ namespace rpg_extreme
             Weapon* weapon = static_cast<Weapon*>(equipment);
             player->EquipWeapon(weapon);
         }
-        equipmentBox->Opened();
         mMap->Remove(equipmentBox);
-
-        delete equipmentBox;
     }
 
     void Game::stepOnSpikeTrap(SpikeTrap* const spikeTrap)

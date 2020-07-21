@@ -12,7 +12,6 @@ namespace rpg_extreme
     {
     public:
         EquipmentBox(const int8_t x, const int8_t y, Equipment* equipment);
-        virtual ~EquipmentBox();
 
         virtual char GetSymbol() const override;
         virtual bool IsCharacter() const override;
@@ -20,9 +19,7 @@ namespace rpg_extreme
         virtual bool IsWall() const override;
         virtual bool IsSpikeTrap() const override;
 
-        void Opened();
-
-        Equipment* GetEquipment() const;
+        Equipment* GetEquipment();
 
     private:
         Equipment* mEquipment;
