@@ -7,7 +7,7 @@ namespace rpg_extreme
         , mHeight(height)
         , mItemBoxCount(0)
         , mMonsterCount(0)
-        , mPlayer(NULL)
+        , mPlayer(nullptr)
         , mBossMonsterPosX(0)
         , mBossMonsterPosY(0)
     {

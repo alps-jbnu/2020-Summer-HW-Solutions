@@ -7,7 +7,7 @@ namespace rpg_extreme
         , mHeight(0)
         , mItemBoxCount(0)
         , mMonsterCount(0)
-        , mPlayer(NULL)
+        , mPlayer(nullptr)
         , mBossMonsterPosX(0)
         , mBossMonsterPosY(0)
     {
@@ -97,7 +97,7 @@ namespace rpg_extreme
 
     GameObject* Map::GetGameObject(const int8_t x, const int8_t y, const uint8_t index) const
     {
-        return NULL;
+        return nullptr;
     }
 
     bool Map::IsPassable(const int8_t x, const int8_t y) const
@@ -107,7 +107,7 @@ namespace rpg_extreme
 
     Player* Map::GetPlayer() const
     {
-        return NULL;
+        return nullptr;
     }
 
     std::string Map::ToString() const

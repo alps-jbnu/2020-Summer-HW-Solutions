@@ -7,7 +7,7 @@ using namespace rpg_extreme;
 int main()
 {
     std::ios::sync_with_stdio(false);
-    std::cin.tie(NULL);
+    std::cin.tie(nullptr);
 
     Game& game = Game::GetInstance();
     game.Start();

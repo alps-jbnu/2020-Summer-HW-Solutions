@@ -4,7 +4,7 @@ namespace rpg_extreme
 {
     EquipmentBox::EquipmentBox(const int8_t x, const int8_t y, Equipment* equipment)
         : GameObject(0, 0)
-        , mEquipment(NULL)
+        , mEquipment(nullptr)
     {
     }
 
@@ -35,6 +35,6 @@ namespace rpg_extreme
 
     Equipment* EquipmentBox::GetEquipment()
     {
-        return NULL;
+        return nullptr;
     }
 }

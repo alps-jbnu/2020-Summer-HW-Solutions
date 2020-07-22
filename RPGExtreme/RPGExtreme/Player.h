@@ -26,7 +26,7 @@ namespace rpg_extreme
         virtual bool IsAttackable() const override;
         virtual bool IsAttackedable() const override;
         virtual void AttackTo(Character* const character) override;
-        virtual void OnAttack(GameObject* const gameObject, const int16_t damage) override;
+        virtual void OnAttacked(GameObject* const gameObject, const int16_t damage) override;
 
         void MoveTo(const int8_t x, const int8_t y);
         void MoveLeft();

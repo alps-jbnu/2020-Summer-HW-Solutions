@@ -38,7 +38,7 @@ namespace rpg_extreme
         Player* player = static_cast<Player*>(character);
     }
 
-    void Monster::OnAttack(GameObject* const gameObject, const int16_t damage)
+    void Monster::OnAttacked(GameObject* const gameObject, const int16_t damage)
     {
         
     }

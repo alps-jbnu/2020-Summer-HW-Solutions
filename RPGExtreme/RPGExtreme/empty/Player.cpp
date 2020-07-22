@@ -6,8 +6,8 @@ namespace rpg_extreme
     Player::Player(const int8_t x, const int8_t y)
         : Character(x, y, 2, 2, 20, 0)
         , mLevel(1)
-        , mWeapon(NULL)
-        , mArmor(NULL)
+        , mWeapon(nullptr)
+        , mArmor(nullptr)
         , mInitX(x)
         , mInitY(y)
         , mbCourageBuff(false)
@@ -56,7 +56,7 @@ namespace rpg_extreme
         Monster* monster = static_cast<Monster*>(character);
     }
 
-    void Player::OnAttack(GameObject* const gameObject, const int16_t damage)
+    void Player::OnAttacked(GameObject* const gameObject, const int16_t damage)
     {
 
     }
@@ -146,7 +146,7 @@ namespace rpg_extreme
         return 0;
     }
 
-    int16_t Player::GetWeaponAttack() const
+    int16_t Player::GetWeapOnAttacked() const
     {
         return 0;
     }

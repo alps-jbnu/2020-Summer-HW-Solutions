@@ -41,10 +41,10 @@ namespace rpg_extreme
         {
             damage = 1;
         }
-        player->OnAttack(this, damage);
+        player->OnAttacked(this, damage);
     }
 
-    void Monster::OnAttack(GameObject* const gameObject, const int16_t damage)
+    void Monster::OnAttacked(GameObject* const gameObject, const int16_t damage)
     {
         mHp -= damage;
         if (mHp < 0)

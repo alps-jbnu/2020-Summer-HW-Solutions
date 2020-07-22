@@ -36,7 +36,7 @@ namespace rpg_extreme
     Equipment* EquipmentBox::GetEquipment()
     {
         Equipment* equipment = mEquipment;
-        mEquipment = NULL;
+        mEquipment = nullptr;
         return equipment;
     }
 }

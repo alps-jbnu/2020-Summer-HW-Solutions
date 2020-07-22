@@ -2,11 +2,11 @@
 
 namespace rpg_extreme
 {
-    Game* Game::sInstance = NULL;
+    Game* Game::sInstance = nullptr;
 
     Game& Game::GetInstance()
     {
-        if (sInstance == NULL)
+        if (sInstance == nullptr)
         {
             sInstance = new Game();
         }
@@ -129,7 +129,7 @@ namespace rpg_extreme
     }
 
     Game::Game()
-        : mMap(NULL)
+        : mMap(nullptr)
         , mTurnCount(0)
         , mbGameClear(false)
     {
