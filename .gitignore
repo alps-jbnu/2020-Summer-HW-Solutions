@@ -63,3 +63,6 @@ RPGExtreme/RPGExtreme/x64/
 RPGExtreme/x64/
 RPGExtreme/RPGExtreme/merged.cpp
 RPGExtreme/RPGExtreme/OneCppMerger.exe
+
+MyHashMap/Debug
+MyHashMap/.vs
