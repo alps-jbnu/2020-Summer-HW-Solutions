@@ -14,7 +14,7 @@ int main()
     std::cin.tie(nullptr);
 
     int N;
-    MyHashMap<bool> hashMap;
+    MyHashMap<bool, 10000> hashMap;
 
     std::cin >> N;
 

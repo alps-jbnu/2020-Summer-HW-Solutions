@@ -5,7 +5,7 @@
 
 #include "Node.h"
 
-template<typename T>
+template<typename T, size_t CAPACITY>
 class MyHashMap final
 {
 public:
@@ -19,18 +19,14 @@ public:
 private:
     static unsigned long long sdbmHash(const char* str);
     static unsigned long long djb2Hash(const char* str);
+    
     Node<T>* getNodeOrNull(const char* key) const;
-
-    enum
-    {
-        CAPACITY = 100
-    };
 
     Node<T>* mContainer[CAPACITY];
 };
 
-template<typename T>
-MyHashMap<T>::MyHashMap()
+template<typename T, size_t CAPACITY>
+MyHashMap<T, CAPACITY>::MyHashMap()
 {
     for (int i = 0; i < CAPACITY; ++i)
     {
@@ -38,8 +34,8 @@ MyHashMap<T>::MyHashMap()
     }
 }
 
-template<typename T>
-MyHashMap<T>::~MyHashMap()
+template<typename T, size_t CAPACITY>
+MyHashMap<T, CAPACITY>::~MyHashMap()
 {
     for (int i = 0; i < CAPACITY; ++i)
     {
@@ -61,8 +57,8 @@ MyHashMap<T>::~MyHashMap()
     }
 }
 
-template<typename T>
-void MyHashMap<T>::Insert(const char* key, T value)
+template<typename T, size_t CAPACITY>
+void MyHashMap<T, CAPACITY>::Insert(const char* key, T value)
 {
     const int index = djb2Hash(key) % CAPACITY;
 
@@ -95,8 +91,8 @@ void MyHashMap<T>::Insert(const char* key, T value)
     now->SetNext(new Node<T>(key, value));
 }
 
-template<typename T>
-T MyHashMap<T>::Get(const char* key) const
+template<typename T, size_t CAPACITY>
+T MyHashMap<T, CAPACITY>::Get(const char* key) const
 {
     Node<T>* node = getNodeOrNull(key);
     
@@ -105,14 +101,14 @@ T MyHashMap<T>::Get(const char* key) const
     return node->GetData();
 }
 
-template<typename T>
-bool MyHashMap<T>::HasKey(const char* key) const
+template<typename T, size_t CAPACITY>
+bool MyHashMap<T, CAPACITY>::HasKey(const char* key) const
 {
     return getNodeOrNull(key) != nullptr;
 }
 
-template<typename T>
-std::vector<std::pair<std::string, T>> MyHashMap<T>::GetEntries() const
+template<typename T, size_t CAPACITY>
+std::vector<std::pair<std::string, T>> MyHashMap<T, CAPACITY>::GetEntries() const
 {
     std::vector<std::pair<std::string, T>> entries;
     entries.reserve(CAPACITY);
@@ -129,8 +125,8 @@ std::vector<std::pair<std::string, T>> MyHashMap<T>::GetEntries() const
     return entries;
 }
 
-template<typename T>
-unsigned long long MyHashMap<T>::sdbmHash(const char* str)
+template<typename T, size_t CAPACITY>
+unsigned long long MyHashMap<T, CAPACITY>::sdbmHash(const char* str)
 {
     unsigned long long hash = 0;
     int c;
@@ -143,8 +139,8 @@ unsigned long long MyHashMap<T>::sdbmHash(const char* str)
     return hash;
 }
 
-template<typename T>
-unsigned long long MyHashMap<T>::djb2Hash(const char* str)
+template<typename T, size_t CAPACITY>
+unsigned long long MyHashMap<T, CAPACITY>::djb2Hash(const char* str)
 {
     unsigned long hash = 5381;
     int c;
@@ -156,8 +152,8 @@ unsigned long long MyHashMap<T>::djb2Hash(const char* str)
     return hash;
 }
 
-template<typename T>
-Node<T>* MyHashMap<T>::getNodeOrNull(const char* key) const
+template<typename T, size_t CAPACITY>
+Node<T>* MyHashMap<T, CAPACITY>::getNodeOrNull(const char* key) const
 {
     const int index = djb2Hash(key) % CAPACITY;
     Node<T>* now = mContainer[index];
