@@ -4,8 +4,8 @@
 namespace rpg_extreme
 {
     Player::Player(const int8_t x, const int8_t y)
-        : Character(x, y, 2, 2, 20, 0)
-        , mLevel(1)
+        : Character(0, 0, 0, 0, 0, 0)
+        , mLevel(0)
         , mWeapon(nullptr)
         , mArmor(nullptr)
         , mInitX(x)
