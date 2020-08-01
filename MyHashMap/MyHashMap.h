@@ -18,11 +18,12 @@ public:
 
 private:
     static unsigned long long sdbmHash(const char* str);
+    static unsigned long long djb2Hash(const char* str);
     Node<T>* getNodeOrNull(const char* key) const;
 
     enum
     {
-        CAPACITY = 100001
+        CAPACITY = 100
     };
 
     Node<T>* mContainer[CAPACITY];
@@ -63,8 +64,7 @@ MyHashMap<T>::~MyHashMap()
 template<typename T>
 void MyHashMap<T>::Insert(const char* key, T value)
 {
-    const unsigned long long hash = sdbmHash(key);
-    const int index = hash % CAPACITY;
+    const int index = djb2Hash(key) % CAPACITY;
 
     if (mContainer[index] == nullptr)
     {
@@ -144,9 +144,22 @@ unsigned long long MyHashMap<T>::sdbmHash(const char* str)
 }
 
 template<typename T>
+unsigned long long MyHashMap<T>::djb2Hash(const char* str)
+{
+    unsigned long hash = 5381;
+    int c;
+    while (c = *str++)
+    {
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+    }
+
+    return hash;
+}
+
+template<typename T>
 Node<T>* MyHashMap<T>::getNodeOrNull(const char* key) const
 {
-    const int index = sdbmHash(key) % CAPACITY;
+    const int index = djb2Hash(key) % CAPACITY;
     Node<T>* now = mContainer[index];
 
     while (now != nullptr)
