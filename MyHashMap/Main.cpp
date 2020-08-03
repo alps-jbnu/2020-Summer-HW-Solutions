@@ -1,40 +1,49 @@
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 #include "MyHashMap.h"
 
-bool Compare(const std::pair<std::string, bool>& p1, const std::pair<std::string, bool>& p2)
-{
-    return p1.first > p2.first;
-}
-
 int main()
 {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
+    MyHashMap<int, 100> hashMap;
 
-    int N;
-    MyHashMap<bool, 10000> hashMap;
+    hashMap.Insert("key1", 50);
+    assert(hashMap.Get(std::string("key1")) == 50);
+    assert(hashMap.Get("key1") == 50);
 
-    std::cin >> N;
+    assert(hashMap.HasKey("key1"));
+    assert(hashMap.HasKey(std::string("key1")));
 
-    for (int n = 0; n < N; ++n)
+    hashMap.Insert(std::string("key1"), 70);
+    assert(hashMap.Get(std::string("key1")) == 70);
+    assert(hashMap.Get("key1") == 70);
+
+    assert(hashMap.Delete("key1"));
+    assert(!hashMap.HasKey("key1"));
+    assert(!hashMap.HasKey(std::string("key1")));
+    assert(!hashMap.Delete(std::string("key1")));
+
+    hashMap.Insert(std::string("key1"), 100);
+    hashMap.Insert("year", 2020);
+    hashMap.Insert(std::string("month"), 8);
+    hashMap.Insert("day", 3);
+    hashMap.Insert("day", 0);
+
+    const char* keys[] = { "key1", "year", "month", "day" };
+    const int expectedValue[] = { 100, 2020, 8, 0 };
+
+    for (int i = 0; i < 4; ++i)
     {
-        char name[6];
-        char log[6];
-        std::cin >> name >> log;
-        hashMap.Insert(name, *log == 'e');
+        const char* key = keys[i];
+        assert(hashMap.Get(key) == expectedValue[i]);
+        assert(hashMap.Get(std::string(key)) == expectedValue[i]);
     }
 
-    auto entries = hashMap.GetEntries();
-    std::sort(entries.begin(), entries.end(), Compare);
-
-    for (auto& entry : entries)
+    for (auto& pair : hashMap.GetEntries())
     {
-        if (entry.second == true)
-        {
-            std::cout << entry.first << '\n';
-        }
+        std::cout << "key: " << pair.first << '\t'
+            << "value: " << pair.second << '\n';
     }
 
     return 0;
