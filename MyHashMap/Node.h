@@ -7,6 +7,7 @@ class Node final
 {
 public:
     Node(const char* const key, const T data);
+    Node(const std::string& key, const T data);
 
     Node<T>* GetNext() const;
     void SetNext(Node<T>* const next);
@@ -25,6 +26,12 @@ Node<T>::Node(const char* key, const T data)
     : mNext(nullptr)
     , mKey(key)
     , mData(data)
+{
+}
+
+template<typename T>
+Node<T>::Node(const std::string& key, const T data)
+    : Node(key.c_str(), data)
 {
 }
 

@@ -11,9 +11,15 @@ class MyHashMap final
 public:
     MyHashMap();
     ~MyHashMap();
-    void Insert(const char* key, T value);
-    T Get(const char* key) const;
-    bool HasKey(const char* key) const;
+    
+    void Insert(const char* const key, T value);
+    void Insert(const std::string& key, T value);
+    bool Delete(const char* const key);
+    bool Delete(const std::string& key);
+    T Get(const char* const key) const;
+    T Get(const std::string& key) const;
+    bool HasKey(const char* const key) const;
+    bool HasKey(const std::string& key) const;
     std::vector<std::pair<std::string, T>> GetEntries() const;
 
 private:
@@ -22,77 +28,127 @@ private:
     
     Node<T>* getNodeOrNull(const char* key) const;
 
-    Node<T>* mContainer[CAPACITY];
+    Node<T>* mNodes[CAPACITY];
 };
 
 template<typename T, size_t CAPACITY>
 MyHashMap<T, CAPACITY>::MyHashMap()
+    : mNodes()
 {
-    for (int i = 0; i < CAPACITY; ++i)
+    for (size_t i = 0; i < CAPACITY; ++i)
     {
-        mContainer[i] = nullptr;
+        mNodes[i] = nullptr;
     }
 }
 
 template<typename T, size_t CAPACITY>
 MyHashMap<T, CAPACITY>::~MyHashMap()
 {
-    for (int i = 0; i < CAPACITY; ++i)
+    for (size_t i = 0; i < CAPACITY; ++i)
     {
-        Node<T>* now = mContainer[i];
+        Node<T>* currentNode = mNodes[i];
 
-        if (now == nullptr)
+        if (currentNode == nullptr)
         {
             continue;
         }
 
-        while (now->GetNext() != nullptr)
+        while (currentNode->GetNext() != nullptr)
         {
-            Node<T>* previous = now;
-            now = now->GetNext();
+            Node<T>* previous = currentNode;
+            currentNode = currentNode->GetNext();
             delete previous;
         }
 
-        delete now;
+        delete currentNode;
     }
 }
 
 template<typename T, size_t CAPACITY>
-void MyHashMap<T, CAPACITY>::Insert(const char* key, T value)
+void MyHashMap<T, CAPACITY>::Insert(const char* const key, T value)
 {
-    const int index = djb2Hash(key) % CAPACITY;
+    const size_t index = djb2Hash(key) % CAPACITY;
 
-    if (mContainer[index] == nullptr)
+    if (mNodes[index] == nullptr)
     {
-        mContainer[index] = new Node<T>(key, value);
+        mNodes[index] = new Node<T>(key, value);
 
         return;
     }
 
-    Node<T>* now = mContainer[index];
-    if (now->GetKey() == key)
+    Node<T>* currentNode = mNodes[index];
+    if (currentNode->GetKey() == key)
     {
-        now->SetData(value);
+        currentNode->SetData(value);
 
         return;
     }
 
-    while (now->GetNext() != nullptr)
+    while (currentNode->GetNext() != nullptr)
     {
-        if (now->GetNext()->GetKey() == key)
+        if (currentNode->GetNext()->GetKey() == key)
         {
-            now->GetNext()->SetData(value);
+            currentNode->GetNext()->SetData(value);
             return;
         }
 
-        now = now->GetNext();
+        currentNode = currentNode->GetNext();
     }
 
-    now->SetNext(new Node<T>(key, value));
+    currentNode->SetNext(new Node<T>(key, value));
 }
 
 template<typename T, size_t CAPACITY>
-T MyHashMap<T, CAPACITY>::Get(const char* key) const
+void MyHashMap<T, CAPACITY>::Insert(const std::string& key, T value)
+{
+    return Insert(key.c_str(), value);
+}
+
+template<typename T, size_t CAPACITY>
+bool MyHashMap<T, CAPACITY>::Delete(const char* const key)
+{
+    const size_t index = djb2Hash(key) % CAPACITY;
+    Node<T>* currentNode = mNodes[index];
+
+    if (currentNode == nullptr)
+    {
+        return false;
+    }
+
+    if (currentNode->GetKey() == key)
+    {
+        Node<T>* temp = currentNode;
+        mNodes[index] = currentNode->GetNext();
+        delete temp;
+
+        return true;
+    }
+
+    while (currentNode->GetNext() != nullptr)
+    {
+        if (currentNode->GetNext()->GetKey() == key)
+        {
+            Node<T>* temp = currentNode->GetNext();
+            currentNode->SetNext(currentNode->GetNext()->GetNext());
+            delete temp;
+
+            return true;
+        }
+
+        currentNode = currentNode->GetNext();
+    }
+
+    return false;
+}
+
+template<typename T, size_t CAPACITY>
+bool MyHashMap<T, CAPACITY>::Delete(const std::string& key)
+{
+    return Delete(key.c_str());
+}
+
+template<typename T, size_t CAPACITY>
+T MyHashMap<T, CAPACITY>::Get(const char* const key) const
 {
     Node<T>* node = getNodeOrNull(key);
     
@@ -102,9 +158,25 @@ T MyHashMap<T, CAPACITY>::Get(const char* key) const
 }
 
 template<typename T, size_t CAPACITY>
-bool MyHashMap<T, CAPACITY>::HasKey(const char* key) const
+T MyHashMap<T, CAPACITY>::Get(const std::string& key) const
+{
+    Node<T>* node = getNodeOrNull(key.c_str());
+
+    assert(node != nullptr);
+
+    return node->GetData();
+}
+
+template<typename T, size_t CAPACITY>
+bool MyHashMap<T, CAPACITY>::HasKey(const char* const key) const
 {
     return getNodeOrNull(key) != nullptr;
+}
+
+template<typename T, size_t CAPACITY>
+inline bool MyHashMap<T, CAPACITY>::HasKey(const std::string& key) const
+{
+    return getNodeOrNull(key.c_str()) != nullptr;
 }
 
 template<typename T, size_t CAPACITY>
@@ -113,7 +185,7 @@ std::vector<std::pair<std::string, T>> MyHashMap<T, CAPACITY>::GetEntries() cons
     std::vector<std::pair<std::string, T>> entries;
     entries.reserve(CAPACITY);
 
-    for (Node<T>* node : mContainer)
+    for (Node<T>* node : mNodes)
     {
         while (node != nullptr)
         {
@@ -144,6 +216,7 @@ unsigned long long MyHashMap<T, CAPACITY>::djb2Hash(const char* str)
 {
     unsigned long hash = 5381;
     int c;
+
     while (c = *str++)
     {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
@@ -155,18 +228,18 @@ unsigned long long MyHashMap<T, CAPACITY>::djb2Hash(const char* str)
 template<typename T, size_t CAPACITY>
 Node<T>* MyHashMap<T, CAPACITY>::getNodeOrNull(const char* key) const
 {
-    const int index = djb2Hash(key) % CAPACITY;
-    Node<T>* now = mContainer[index];
+    const size_t index = djb2Hash(key) % CAPACITY;
+    Node<T>* currentNode = mNodes[index];
 
-    while (now != nullptr)
+    while (currentNode != nullptr)
     {
-        if (now->GetKey() == key)
+        if (currentNode->GetKey() == key)
         {
             break;
         }
 
-        now = now->GetNext();
+        currentNode = currentNode->GetNext();
     }
 
-    return now;
+    return currentNode;
 }
